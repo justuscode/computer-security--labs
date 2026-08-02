@@ -1,0 +1,37 @@
+What is Digital Forensics?
+Digital Forensics is the branch of forensic science focused on the recovery, identification, preservation, examination, and analysis of data stored on or transmitted by digital devices (computers, mobile phones, servers, cloud storage, network hardware). Its primary goal is to extract reliable digital evidence to reconstruct past events for use in legal proceedings, incident response, or internal investigations.
+Key Forensic TerminologyDigital
+ Evidence: Any information or data of probative value stored or transmitted in binary form that can be used
+  in a legal proceeding or administrative inquiry (e.g., system logs, emails, deleted files, memory dumps, database records).
+Metadata: Data about data. It provides context about a file or system object without revealing the underlying content.
+   Examples include file creation date, last modified timestamp, author name, camera settings (EXIF data), and file permissions.
+Chain of Custody: A chronological, unbroken documentation trail that records the sequence of custody, control, transfer, analysis, 
+and disposition of physical or digital evidence. It identifies who handled the evidence, when, why, and where it was stored.
+
+2. Evidence Preservation and Cryptographic HashesWhy Evidence Must Remain UnchangedDigital evidence is inherently fragile
+ and volatile. Merely opening a file can alter its metadata (such as the "Last Accessed" time),
+  rendering it vulnerable to challenges in court regarding spoliation or tampering. 
+  To be admissible in court, evidence must be authentic and unaltered from the exact state it was found at the crime scene or incident site.
+  
+  Cryptographic Hashes as Digital FingerprintsA cryptographic hash function (such as SHA-256) is a deterministic mathematical algorithm 
+  that converts an arbitrary amount of data into a fixed-size string of characters (256 bits or 64 hexadecimal characters for SHA-256).
+  
+  Properties of Cryptographic Hashes:
+  Deterministic: The exact same file will always produce the exact same hash output.
+  One-Way (Irreversible): You cannot reverse a hash output to reconstruct the original data.
+  Collision Resistant: It is computationally infeasible for two different files to produce the same hash value.
+  The Avalanche EffectThe Avalanche Effect is a critical property of secure hash functions: if an input changes even minutely (such as adding or changing a single bit or character), 
+  the resulting output hash changes drastically and unpredictably.
+  Example:SHA-256("Hello World")
+   $\rightarrow$ a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e
+   SHA-256("Hello World!") 
+   $\rightarrow$ 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
+   Notice how adding a single exclamation mark entirely transforms every single character in the hash string.
+   
+   Why Investigators Hash Evidence Before and After AnalysisBaselining Integrity 
+   (Before): Immediately upon acquiring a forensic image (copy) of a drive or file, 
+   the investigator calculates its SHA-256 hash. 
+   This establishes the original "fingerprint."Verification 
+   (After/During): When the analysis is complete—or when presenting evidence in court—the investigator
+    calculates the hash again. If the initial hash matches the post-analysis hash 
+    ($Hash_{initial} == Hash_{final}$), it mathematically proves that the analysis process did not alter or corrupt the evidence.
